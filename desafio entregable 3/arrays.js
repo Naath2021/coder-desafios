@@ -20,7 +20,7 @@ function validateSize(size) {
 }
 
 function validateDirection(direction) {
-    if ((direction == "horizontal") || (direction == "vertical")) {
+    if ((direction === "horizontal") || (direction === "vertical")) {
         return false
     } else {
         alert("Escribe solo una de las dos opciones disponibles: horizontal o vertical");
@@ -28,11 +28,11 @@ function validateDirection(direction) {
 }
 
 function validateAlbum(album) {
-    if ((album == "portafolio") || (album == "proyectos")) {
+    if ((album === "portafolio") || (album === "proyectos")) {
         return false
     } else {
         alert("Escribe solo una de las dos opciones disponibles: Portafolio o Proyectos")
-        return false}
+        return true}
 }
 
 
