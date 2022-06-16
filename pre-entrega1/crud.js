@@ -25,19 +25,25 @@ while (conditionToFirstWhile) {
 
   switch (crudActions) {
     case "1":
-        createPhoto();
+      createPhoto();
       break;
     case "2":
-        if (photosSaved.length > 0) {
-            searchPhoto()
-        } else {alert("Tu lista está vacía.")}
-      alert(photosSaved);
+      if (validateList()) {
+        searchPhoto();
+      }
       break;
     case "3":
-      alert("editar");
+      if (validateList()) {
+      searchPhoto();
+      updatePhoto();
+      }
       break;
     case "4":
-      alert("borrar");
+      if (validateList()) {
+      searchPhoto();
+      deletePhoto();
+      alert("Acción realizada exitosamente.");
+      }
       break;
     case "5":
       conditionToFirstWhile = false;
@@ -47,9 +53,7 @@ while (conditionToFirstWhile) {
   }
 }
 
-
-
-            // Validation functions
+// VALIDATION FUNCTIONS
 function validateSize(size) {
   if (isNaN(size)) {
     alert("El tamaño de la imagen solo permite números enteros");
@@ -81,73 +85,91 @@ function validateAlbum(album) {
   }
 }
 
-            // Switch functions
+// SWITCH FUNCTIONS
+
 function createPhoto() {
   let photoUploaded;
-  let conditionToWhileCreate = true;
-  while (conditionToWhileCreate) {
-    let photosToUpload = prompt(
-      "¿Cuántas fotos deseas subir? \n(Cantidad máxima actual de 5 por operación.)"
-    );
-    if (isNaN(photosToUpload)) {
-      alert("Recuerda que sólo puedes agregar números");
-    } else if (photosToUpload > 5) {
-      alert("Recuerda que sólo puedes agregar hasta 5 fotos.");
-    } else {
-      for (let photo = 0; photo < photosToUpload; photo++) {
-        let photoName = prompt("Ingresa el nombre que tendrá la foto.");
-        let photoSize = 0;
-        let photoDirection = "";
-        let photoAlbum = "";
+  let conditionToCreate = true;
+  while (conditionToCreate) {
+    let photoName = prompt("Ingresa el nombre que tendrá la nueva foto.");
+    let photoSize = 0;
+    let photoDirection = "";
+    let photoAlbum = "";
 
-        let photoSizeIsValid = true;
-        while (photoSizeIsValid) {
-          photoSize = parseInt(
-            prompt(
-              "Ingresa el tamaño total de la foto en KB (Agrega sólo números)"
-            )
-          );
-          photoSizeIsValid = validateSize(photoSize);
-        }
-
-        let photoDirectionIsValid = true;
-        while (photoDirectionIsValid) {
-          photoDirection = prompt(
-            "¿La foto es Vertical u Horizontal?"
-          ).toLowerCase();
-          photoDirectionIsValid = validateDirection(photoDirection);
-        }
-
-        let photoAlbumIsValid = true;
-        while (photoAlbumIsValid) {
-          photoAlbum = prompt(
-            "Selecciona la sección en donde se alojará la foto.\n- Portafolio. \n- Proyectos."
-          ).toLowerCase();
-          photoAlbumIsValid = validateAlbum(photoAlbum);
-        }
-
-        alert(
-          "Estás por agregar la fotografía nombre: " +
-            photoName +
-            ", de " +
-            photoSize +
-            "KB, en modo " +
-            photoDirection +
-            ", que se ingresará en la sección: " +
-            photoAlbum
-        );
-
-        photoUploaded = new photos(photoName,photoSize,photoDirection,photoAlbum);
-      }
-      photosSaved.push(photoUploaded);
-      console.log(photoUploaded);
+    let photoSizeIsValid = true;
+    while (photoSizeIsValid) {
+      photoSize = parseInt(
+        prompt("Ingresa el tamaño total de la foto en KB (Agrega sólo números)")
+      );
+      photoSizeIsValid = validateSize(photoSize);
     }
-    conditionToWhileCreate = false;
+
+    let photoDirectionIsValid = true;
+    while (photoDirectionIsValid) {
+      photoDirection = prompt(
+        "¿La foto es Vertical u Horizontal?"
+      ).toLowerCase();
+      photoDirectionIsValid = validateDirection(photoDirection);
+    }
+
+    let photoAlbumIsValid = true;
+    while (photoAlbumIsValid) {
+      photoAlbum = prompt(
+        "Selecciona la sección en donde se alojará la foto.\n- Portafolio. \n- Proyectos."
+      ).toLowerCase();
+      photoAlbumIsValid = validateAlbum(photoAlbum);
+    }
+
+    alert(
+      `Estás por agregar la fotografía nombre ${photoName}, de ${photoSize}KB, en dirección ${photoDirection}, que se alojará en la sección ${photoAlbum}`
+    );
+
+    photoUploaded = new photos(
+      photoName,
+      photoSize,
+      photoDirection,
+      photoAlbum
+    );
+    photosSaved.push(photoUploaded);
+    conditionToCreate = false;
   }
 }
 
-
 function searchPhoto() {
-    let searchName = photosSaved.find(item => item.name === "maria")
-    alert(searchName.name)
+  photosSaved.forEach((element, index) => {
+    alert(
+      `Detalles de tus fotos: \nNombre: ${element.name}, tamaño: ${element.size}, dirección: ${element.direction}, sección: ${element.album} \nINDICE: ${index} (este número te va a servir para eliminar o actualizar esta foto)`
+    );
+  });
+}
+
+function updatePhoto() {
+  deletePhoto();
+  createPhoto();
+}
+
+function deletePhoto() {
+  let conditionToDeletePhoto = true;
+  while (conditionToDeletePhoto) {
+    let photoToDelete = prompt("Indica el INDICE de la foto.");
+
+    if (isNaN(photoToDelete) || photoToDelete < 0 || photoToDelete > photosSaved.length) {
+      alert(
+        "Sólo puedes ingresar el valor de índice que se indicó anteriormente."
+      );
+    } else {
+      photosSaved.splice(photoToDelete, 1);
+      searchPhoto();
+        conditionToDeletePhoto = false;
+    }
+  }
+}
+
+function validateList(){
+  if (photosSaved.length > 0) {
+    return true;
+  } else {
+    alert("Tu lista está vacía.");
+    return false;
+  }
 }
