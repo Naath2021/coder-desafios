@@ -1,3 +1,4 @@
+/* 
 const photosSaved = [];
 
 class Photos {
@@ -68,3 +69,4 @@ function createPhoto() {
   photoUploaded = new Photos(photoName.value, photoSize.value, photoSection.value, photoDate, photoId);
   photosSaved.push(photoUploaded);
 }
+*/

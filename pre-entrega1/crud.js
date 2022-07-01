@@ -53,7 +53,7 @@
 //   }
 // }
 
-// // VALIDATION FUNCTIONS
+ // VALIDATION FUNCTIONS
 // function validateSize(size) {
 //   if (isNaN(size)) {
 //     alert("El tamaño de la imagen solo permite números enteros");
@@ -85,7 +85,7 @@
 //   }
 // }
 
-// // SWITCH FUNCTIONS
+ // SWITCH FUNCTIONS
 
 // function createPhoto() {
 //   let photoUploaded;
