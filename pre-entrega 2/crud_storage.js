@@ -100,15 +100,15 @@ function deleteFromArrAndStorage(id) {
   let photoList = getFromLocalStorage(localStorageKey)
   photoList.splice(id, 1)
   localStorage.removeItem(localStorageKey)
-  setInLocalStorage(photoList, localStorageKey)
+  imgContainer.remove()
   divContainer.removeChild(divContainer.firstChild)
+    (photoList.length > 0) && setInLocalStorage(photoList, localStorageKey)
 }
 
 function deletePhoto() {
   indexToDelete = inputDelete.value;
-  console.log(indexToDelete)
+  // console.log(indexToDelete)
   let photoList = getFromLocalStorage(localStorageKey);
-
   (indexToDelete > photoList.length - 1) ? alert("Sólo puedes agregar el índice de las fotos que subiste") : deleteFromArrAndStorage(indexToDelete)
 }
 
@@ -119,7 +119,7 @@ function setInLocalStorage(obj, key) {
 
 function getFromLocalStorage(key) {
   let convertJSONToObj = localStorage.getItem(key)
-  return JSON.parse(convertJSONToObj)
+  return JSON.parse(convertJSONToObj) || alert("El listado está vacío.");
 }
 
 
