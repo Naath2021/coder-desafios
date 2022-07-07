@@ -131,7 +131,7 @@ function getFromLocalStorage(key) {
     text: text,
     icon: icon,
     showClass: {
-      popup: 'animate__animated animate__zoomInDown'
+      popup: 'animate__animated animate__zoomIn'
     },
     hideClass: {
       popup: 'animate__animated animate__lightSpeedOutRight'
