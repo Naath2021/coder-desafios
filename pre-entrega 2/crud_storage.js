@@ -82,6 +82,7 @@ function addFileToDocument() {
   });
 }
 
+// CREATE PHOTO
 function createPhoto() {
   let photoUploaded;
   let photoName = document.getElementById("photoName");
@@ -89,27 +90,29 @@ function createPhoto() {
   let photoSection = document.getElementById("inputGroupSelect01");
   let photoDate = formatDate;
   let photoId = photosSaved.length;
-
+  
   photoUploaded = new Photos(photoName.value, photoSize.value, photoSection.value, photoDate, photoId, "img");
   photosSaved.push(photoUploaded);
 
   setInLocalStorage(photosSaved, localStorageKey)
 }
 
+// DELETE FROM ARRAY AND STORAGE
 function deleteFromArrAndStorage(id) {
   let photoList = getFromLocalStorage(localStorageKey)
   photoList.splice(id, 1)
   localStorage.removeItem(localStorageKey)
   imgContainer.remove()
   divContainer.removeChild(divContainer.firstChild)
-    (photoList.length > 0) && setInLocalStorage(photoList, localStorageKey)
+  (photoList.length > 0) && setInLocalStorage(photoList, localStorageKey)
 }
 
+// DELETE PHOTO
 function deletePhoto() {
   indexToDelete = inputDelete.value;
   // console.log(indexToDelete)
   let photoList = getFromLocalStorage(localStorageKey);
-  (indexToDelete > photoList.length - 1) ? alert("Sólo puedes agregar el índice de las fotos que subiste") : deleteFromArrAndStorage(indexToDelete)
+  (indexToDelete > photoList.length - 1) ? sweetAlertSimple("Error!", "Sólo puedes agregar el índice las fotos que subiste.") : deleteFromArrAndStorage(indexToDelete)
 }
 
 function setInLocalStorage(obj, key) {
@@ -119,13 +122,24 @@ function setInLocalStorage(obj, key) {
 
 function getFromLocalStorage(key) {
   let convertJSONToObj = localStorage.getItem(key)
-  return JSON.parse(convertJSONToObj) || alert("El listado está vacío.");
+  return JSON.parse(convertJSONToObj) || sweetAlertSimple("Oops!", "El listado está vacío,", "warning");
 }
 
-
+ const sweetAlertSimple = (title, text, icon) =>{
+  Swal.fire({
+    title: title,
+    text: text,
+    icon: icon,
+    showClass: {
+      popup: 'animate__animated animate__zoomInDown'
+    },
+    hideClass: {
+      popup: 'animate__animated animate__lightSpeedOutRight'
+    }
+  })
+ }
 
 // const blobToBase64 = (blob) => {
-
 //   return new Promise((resolve, reject) => {
 //     const reader = new FileReader();
 //     reader.readAsDataURL(blob);
