@@ -1,4 +1,6 @@
-/* 
+
+import { images } from "../images.js";
+
 const photosSaved = [];
 
 class Photos {
@@ -52,15 +54,15 @@ function addFileToDocument() {
   let photoSection = document.getElementById("inputGroupSelect01");
   let photoDate = formatDate;
   let photoId = photosSaved.length - 1;
-  
+
   let photoInfoRetrieved = getFromLocalStorage(localStorageKey)
-  
+
   photoInfoRetrieved.forEach((e, index) => {
     divContainer.append(imgContainer)
 
     let name = document.createElement("h2")
     name.innerText = (`Nombre: ${photoName.value}`)
-    
+
     const img = new Image()
     let reader = new FileReader();
     reader.onload = function (e) {
@@ -90,7 +92,7 @@ function createPhoto() {
   let photoSection = document.getElementById("inputGroupSelect01");
   let photoDate = formatDate;
   let photoId = photosSaved.length;
-  
+
   photoUploaded = new Photos(photoName.value, photoSize.value, photoSection.value, photoDate, photoId, "img");
   photosSaved.push(photoUploaded);
 
@@ -99,12 +101,16 @@ function createPhoto() {
 
 // DELETE FROM ARRAY AND STORAGE
 function deleteFromArrAndStorage(id) {
-  let photoList = getFromLocalStorage(localStorageKey)
-  photoList.splice(id, 1)
-  localStorage.removeItem(localStorageKey)
-  imgContainer.remove()
-  divContainer.removeChild(divContainer.firstChild)
-  (photoList.length > 0) && setInLocalStorage(photoList, localStorageKey)
+  try {
+    let photoList = getFromLocalStorage(localStorageKey)
+    photoList.splice(id, 1)
+    localStorage.removeItem(localStorageKey)
+    imgContainer.remove()
+    divContainer.removeChild(divContainer.firstChild)
+      (photoList.length > 0) && setInLocalStorage(photoList, localStorageKey)
+  }catch (error) {
+    console.log(error)
+  }
 }
 
 // DELETE PHOTO
@@ -123,9 +129,9 @@ function setInLocalStorage(obj, key) {
 function getFromLocalStorage(key) {
   let convertJSONToObj = localStorage.getItem(key)
   return JSON.parse(convertJSONToObj) || sweetAlertSimple("Oops!", "El listado está vacío,", "warning");
-} 
+}
 
-const sweetAlertSimple = (title, text, icon) =>{
+const sweetAlertSimple = (title, text, icon) => {
   Swal.fire({
     title: title,
     text: text,
@@ -137,6 +143,4 @@ const sweetAlertSimple = (title, text, icon) =>{
       popup: 'animate__animated animate__lightSpeedOutRight'
     }
   })
- }
-
-*/ 
+}
